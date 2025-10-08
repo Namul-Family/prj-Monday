@@ -1,0 +1,11 @@
+{
+  "name": "@prj/tsconfig",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./base.json": "./base.json",
+    "./react.json": "./react.json",
+    "./node.json": "./node.json"
+  },
+  "files": ["base.json", "react.json", "node.json"]
+}

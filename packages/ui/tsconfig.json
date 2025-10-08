@@ -1,0 +1,10 @@
+{
+  "extends": "@prj/tsconfig/react.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": false
+  },
+  "include": ["src"]
+}
+

@@ -1,0 +1,10 @@
+{
+  "extends": "@prj/tsconfig/node.json",
+  "exclude": ["**/*.test.ts", "**/__tests__/**"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "baseUrl": "."
+  },
+  "include": ["src", "vitest.config.ts"]
+}
+
