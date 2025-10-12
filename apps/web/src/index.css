@@ -2,6 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App styles */
-body { @apply antialiased; }
+@layer base {
+  html {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+    min-height: 100dvh;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
 
+  /* iOS Safari safe area support */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 16px);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+@layer components {
+  /* Touch-friendly buttons */
+  .btn-touch {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+  
+  /* Tag styles */
+  .tag-chip {
+    @apply rounded-full text-sm px-4 py-2 transition-colors;
+  }
+  
+  .tag-chip-selected {
+    @apply bg-gray-800 text-white;
+  }
+  
+  .tag-chip-unselected {
+    @apply bg-gray-100 text-gray-700;
+  }
+  
+  /* Badge styles */
+  .badge {
+    @apply rounded-full text-xs px-2 py-1;
+  }
+  
+  /* Card image aspect ratio */
+  .card-image {
+    @apply aspect-[4/3] rounded-lg overflow-hidden object-cover;
+  }
+  
+  /* Bottom sheet backdrop */
+  .backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm;
+  }
+  
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Scroll lock for bottom sheets */
+  .scroll-lock {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+}
+
+@layer utilities {
+  /* Mobile viewport height */
+  .h-screen-mobile {
+    height: 100dvh;
+  }
+  
+  /* Touch scroll optimization */
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}

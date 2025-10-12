@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite doesn't support enums, so we'll use String types instead
+
+model User {
+  id          String     @id @default(uuid())
+  isAnonymous Boolean    @default(true)
+  bookmarks   Bookmark[]
+  tags        Tag[]
+  notes       Note[]
+  createdAt   DateTime   @default(now())
+}
+
+model Bookmark {
+  id              String          @id @default(uuid())
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type            String         // text, link, image
+  status          String         @default("inbox") // inbox, active, archived
+  title           String
+  content         String?
+  url             String?
+  imageUrl        String?
+  memo            String?
+  metaTitle       String?
+  metaDescription String?
+  metaImageUrl    String?
+  isFavorite      Boolean         @default(false)
+  tags            BookmarkTag[]
+  notes           Note[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  deletedAt       DateTime?
+  @@index([userId, status, createdAt])
+  @@index([userId, isFavorite])
+}
+
+model Tag {
+  id          String        @id @default(uuid())
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  color       String?
+  description String?
+  bookmarks   BookmarkTag[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  @@unique([userId, name])
+}
+
+model BookmarkTag {
+  bookmarkId String
+  tagId      String
+  bookmark   Bookmark @relation(fields: [bookmarkId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  @@id([bookmarkId, tagId])
+  @@index([tagId])
+  @@index([bookmarkId])
+}
+
+model Note {
+  id         String    @id @default(uuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookmarkId String
+  bookmark   Bookmark  @relation(fields: [bookmarkId], references: [id], onDelete: Cascade)
+  body       String
+  createdAt  DateTime  @default(now())
+  @@index([bookmarkId, createdAt])
+}

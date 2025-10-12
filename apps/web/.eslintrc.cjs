@@ -1,4 +1,4 @@
 module.exports = {
-  extends: ["@prj/eslint-config"],
+  root: true,
+  extends: ["@monday-bookmark/eslint-config"],
 };
-

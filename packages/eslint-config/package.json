@@ -1,24 +1,21 @@
 {
-  "name": "@prj/eslint-config",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@monday-bookmark/eslint-config",
+  "version": "1.0.0",
+  "description": "Shared ESLint configurations for monday-bookmark-service",
   "main": "index.js",
-  "peerDependencies": {
-    "eslint": ">=9",
-    "@typescript-eslint/eslint-plugin": ">=8",
-    "@typescript-eslint/parser": ">=8",
-    "eslint-plugin-react": ">=7",
-    "eslint-plugin-react-hooks": ">=5",
-    "eslint-plugin-import": ">=2",
-    "eslint-config-prettier": ">=9"
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint-config-next": "^13.5.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
   },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.7.0",
-    "@typescript-eslint/parser": "^8.7.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0"
+  "peerDependencies": {
+    "eslint": "^8.48.0",
+    "typescript": "^5.2.2"
   }
 }
-

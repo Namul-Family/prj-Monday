@@ -1,0 +1,10 @@
+
+> @monday-bookmark/web@1.0.0 build /Users/juniper-j/Namul Family/prj-Monday/apps/web
+> tsc && vite build
+
+[36mvite v4.5.14 [32mbuilding for production...[36m[39m
+[2K[1Gtransforming (1) [2mindex.html[22m[2K[1Gtransforming (5) [2m../../node_modules/.pnpm/react-router-dom@6.30.1_react-dom@18.3.1_rea[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1G[2K[1Gtransforming (57) [2m../../node_modules/.pnpm/@tanstack+query-core@4.41.0/node_modules/@t[2K[1G[2K[1G[2K[1G[2K[1Gtransforming (88) [2m../../node_modules/.pnpm/lucide-react@0.279.0_react@18.3.1/node_modu[2K[1Gtransforming (628) [2m../../node_modules/.pnpm/lucide-react@0.279.0_react@18.3.1/node_mod[2K[1Gtransforming (1232) [2m../../node_modules/.pnpm/lucide-react@0.279.0_react@18.3.1/node_mo[2K[1Gtransforming (1373) [2m../../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/locales/e[2K[1G[32m✓[39m 1374 modules transformed.
+[2K[1Grendering chunks (1)...[2K[1G[2K[1Gcomputing gzip size (0)...[2K[1Gcomputing gzip size (1)...[2K[1Gcomputing gzip size (2)...[2K[1Gcomputing gzip size (3)...[2K[1G[2mdist/[22m[32mindex.html                 [39m[1m[2m  0.46 kB[22m[1m[22m[2m │ gzip:  0.30 kB[22m
+[2mdist/[22m[2massets/[22m[35mindex-d19dde40.css  [39m[1m[2m 11.05 kB[22m[1m[22m[2m │ gzip:  2.79 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-c4ef433d.js   [39m[1m[2m219.44 kB[22m[1m[22m[2m │ gzip: 68.85 kB[22m
+[32m✓ built in 925ms[39m

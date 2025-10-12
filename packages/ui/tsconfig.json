@@ -1,10 +1,27 @@
 {
-  "extends": "@prj/tsconfig/react.json",
-  "compilerOptions": {
-    "outDir": "dist",
-    "declaration": true,
-    "emitDeclarationOnly": false
-  },
-  "include": ["src"]
-}
-
+    "compilerOptions": {
+      "target": "ES2020",
+      "lib": ["DOM", "DOM.Iterable", "ES6"],
+      "strict": true,
+      "forceConsistentCasingInFileNames": true,
+  
+      "module": "ESNext",
+      "moduleResolution": "node",
+  
+      "jsx": "react-jsx",
+  
+      "declaration": true,
+      "declarationMap": true,
+      "outDir": "dist",
+      "rootDir": "src",
+  
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+  
+      "skipLibCheck": true,
+  
+      "noEmit": false          // ✅ 반드시 false
+    },
+    "include": ["src/**/*"],
+    "exclude": ["dist", "node_modules"]
+  }

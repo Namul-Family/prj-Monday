@@ -1,4 +1,3 @@
-// ESM
 export default {
   plugins: {
     tailwindcss: {},

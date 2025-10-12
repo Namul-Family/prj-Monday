@@ -1,12 +1,19 @@
 {
-  "extends": "@prj/tsconfig/react.json",
+  "extends": "@monday-bookmark/tsconfig/react.json",
   "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
     "baseUrl": ".",
-    "types": ["vite/client"],
     "paths": {
-      "@/": ["src/"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "vite.config.ts", "vitest.config.ts"]
+  "include": [
+    "src/**/*",
+    "vite-env.d.ts"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
-

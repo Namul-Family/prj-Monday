@@ -1,49 +1,39 @@
 {
-  "name": "@prj/ui",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-
-  "main": "./dist/index.cjs",
-
-  "module": "./dist/index.js",
-
-  "types": "./dist/index.d.ts",
-
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+    "name": "@monday-bookmark/ui",
+    "version": "1.0.0",
+    "description": "Shared UI components for monday-bookmark-service",
+    "type": "module",
+    "main": "dist/index.js",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+      }
+    },
+    "files": ["dist"],
+    "scripts": {
+      "build": "tsc",
+      "dev": "tsc --watch",
+      "clean": "rm -rf dist",
+      "lint": "eslint src",
+      "typecheck": "tsc --noEmit"
+    },
+    "peerDependencies": {
+      "react": ">=18.0.0",
+      "react-dom": ">=18.0.0"
+    },
+    "devDependencies": {
+      "@types/react": "^18.2.22",
+      "@types/react-dom": "^18.2.7",
+      "typescript": "^5.2.2",
+      "@monday-bookmark/tsconfig": "workspace:*",
+      "@monday-bookmark/eslint-config": "workspace:*"
+    },
+    "dependencies": {
+      "lucide-react": "^0.279.0",
+      "clsx": "^2.0.0"
     }
-  },
-
-  "files": ["dist"],
-
-  "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
-    "dev": "tsup src/index.ts --watch",
-    "lint": "eslint .",
-    "test": "vitest run",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "clean": "rimraf dist"
-  },
-
-  "peerDependencies": {
-    "react": "^18 || ^19",
-    "react-dom": "^18 || ^19"
-  },
-
-  "devDependencies": {
-    "@prj/tsconfig": "workspace:*",
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "rimraf": "^6.0.1",
-    "tsup": "^8.5.0",
-    "typescript": "^5.5.4",
-    "vitest": "^2.0.5"
-  },
-
-  "sideEffects": false
-}
+  }
