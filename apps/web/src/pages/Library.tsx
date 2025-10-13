@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useBookmarks } from '../hooks/useBookmarks';
-import { BookmarkCard } from '../components/BookmarkCard';
+import { BookmarkCard } from '../components/bookmarks/BookmarkCard';
 import { useUpdateBookmark, useDeleteBookmark } from '../hooks/useBookmarks';
 import { Filter, Star, Archive } from 'lucide-react';
 

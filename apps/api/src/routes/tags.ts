@@ -135,3 +135,4 @@ router.delete('/:id', async (req: Request, res: Response) => { // <-- 타입
   }
 });
 
+export const tagsRouter = router;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TagSelector } from '../components/TagSelector';
-import { BookmarkCard } from '../components/BookmarkCard';
+import { BookmarkCard } from '../components/bookmarks/BookmarkCard';
 import { BottomNav } from '../components/BottomNav';
 import { AddSheet } from '../components/sheets/AddSheet';
 import { TagManagerSheet } from '../components/sheets/TagManagerSheet';
@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
       {/* 하단 네비게이션: iOS 스타일 플로팅 바 */}
       <BottomNav
         inboxCount={inboxCount}
-        onTrashClick={handleTrashClick}
+        onOrganizeClick={handleTrashClick}
         onAddClick={handleAddClick}
         onProfileClick={handleProfileClick}
       />

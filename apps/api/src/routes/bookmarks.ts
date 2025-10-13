@@ -185,3 +185,4 @@ router.delete('/:id/tags/:tagId', async (req: Request, res: Response) => { // <-
   }
 });
 
+export const bookmarksRouter = router;
