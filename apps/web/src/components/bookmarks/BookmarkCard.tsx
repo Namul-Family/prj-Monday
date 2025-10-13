@@ -18,6 +18,7 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   bookmark,
   onToggleFavorite,
 }) => {
+  // ---- 값 존재 여부
   const hasImage = !!bookmark.metaImageUrl?.trim();
   const hasTitle = !!bookmark.title?.trim();
   const memoText = bookmark.content?.trim() || bookmark.memo?.trim() || '';
@@ -36,21 +37,20 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
     <article
       className={clsx(
         // 🔹 Masonry 호환: 하나의 블록으로 취급 + 컬럼 경계에서 분리 금지
-        'inline-block w-full break-inside-avoid [break-inside:avoid-column]',
-        // 🔹 카드 스타일
-        'relative rounded-xl bg-white' // << ring(아웃라인) 제거
+        'inline-block align-top w-full break-inside-avoid [break-inside:avoid-column]',
+        'relative rounded-xl bg-white overflow-hidden' // << ring(아웃라인) 제거
       )}
     >
       {/* 이미지 섹션 (있을 때만) */}
       {hasImage && (
         <div className="relative">
-          {/* 🔹 이미지에 상/하단 라운드 모두 적용 */}
+          {/* ❌ aspect/h-고정 금지 → ✅ 원본 비율로 높이 자동 */}
           <img
             src={bookmark.metaImageUrl!}
             alt={hasTitle ? bookmark.title! : 'bookmark thumbnail'}
             loading="lazy"
             decoding="async"
-            className="block w-full h-auto rounded-md"
+            className="block w-full h-auto rounded-xl"
           />
 
           {/* 외부 링크 아이콘 (이미지 우상단) */}
@@ -92,11 +92,9 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
             </h3>
           )}
 
+          {/* 메모: 높이 가변을 위해 line-clamp 제거 */}
           {hasMemo && (
-            <p className={clsx(
-              'mt-1 text-[13px] leading-relaxed text-gray-500',
-              'line-clamp-3' // Tailwind line-clamp 플러그인 사용 시
-            )}>
+            <p className="mt-1 text-[13px] leading-relaxed text-gray-500 whitespace-pre-line">
               {memoText}
             </p>
           )}
