@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TagSelector } from '../components/TagSelector';
 import { BookmarkCard } from '../components/bookmarks/BookmarkCard';
+import { BookmarksMasonry } from '../components/bookmarks/BookmarksMasonry';
 import { BottomNav } from '../components/BottomNav';
 import { AddSheet } from '../components/sheets/AddSheet';
 import { TagManagerSheet } from '../components/sheets/TagManagerSheet';
@@ -98,10 +99,13 @@ export const Home: React.FC = () => {
             북마크가 없습니다. 하단 + 버튼으로 추가해보세요.
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3 max-[360px]:grid-cols-1">
-            {bookmarks.map((bookmark) => (
+          <BookmarksMasonry
+            items={bookmarks}
+            columnsClassName="columns-1 min-[375px]:columns-2 lg:columns-3"
+            columnGapClassName="gap-x-3"
+            itemGapClassName="[&>*]:mb-3"
+            renderItem={(bookmark) => (
               <BookmarkCard
-                key={bookmark.id}
                 bookmark={bookmark}
                 // 카드 내부 스타일 가이드:
                 // - 썸네일: aspect-[4/3] object-cover rounded-lg
@@ -110,8 +114,8 @@ export const Home: React.FC = () => {
                 // - 태그배지: rounded-full px-2 py-0.5 text-[11px]
                 onToggleFavorite={handleToggleFavorite}
               />
-            ))}
-          </div>
+            )}
+            />
         )}
       </div>
 
