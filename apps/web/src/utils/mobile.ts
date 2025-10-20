@@ -3,13 +3,23 @@
 /**
  * body 스크롤을 잠그거나 해제합니다 (바텀시트 열릴 때 사용)
  */
+let scrollLockCount = 0;
+
 export const lockScroll = () => {
+  scrollLockCount += 1;
+  if (scrollLockCount > 1) return;
+
   document.body.classList.add('scroll-lock');
   document.body.style.position = 'fixed';
   document.body.style.width = '100%';
 };
 
 export const unlockScroll = () => {
+  if (scrollLockCount === 0) return;
+
+  scrollLockCount -= 1;
+  if (scrollLockCount > 0) return;
+  
   document.body.classList.remove('scroll-lock');
   document.body.style.position = '';
   document.body.style.width = '';

@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { Bookmark, Tag, BookmarkType, BookmarkStatus } from '@monday-bookmark/types';
 
 // ---------- 목업 이미지 3종 ----------
@@ -141,8 +141,40 @@ const getBookmarkTags = (bookmarkId: string) => {
 const mockBookmarks = generateMockBookmarks();
 const mockTags = generateMockTags();
 
+type BookmarksSubscriber = () => void;
+
+let bookmarksState = mockBookmarks;
+const bookmarkSubscribers = new Set<BookmarksSubscriber>();
+
+const getBookmarksState = () => bookmarksState;
+
+const setBookmarksState = (
+  updater: Bookmark[] | ((prev: Bookmark[]) => Bookmark[]),
+) => {
+  bookmarksState =
+    typeof updater === 'function'
+      ? (updater as (prev: Bookmark[]) => Bookmark[])(bookmarksState)
+      : updater;
+  bookmarkSubscribers.forEach(subscriber => subscriber());
+};
+
+const subscribeBookmarks = (subscriber: BookmarksSubscriber) => {
+  bookmarkSubscribers.add(subscriber);
+  return () => {
+    bookmarkSubscribers.delete(subscriber);
+  };
+};
+
 export const useMobileBookmarks = (filters?: { tagIds?: string[]; status?: BookmarkStatus }) => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>(mockBookmarks);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>(() => getBookmarksState());
+
+  useEffect(() => {
+    const handleChange = () => {
+      setBookmarks(getBookmarksState());
+    };
+
+    return subscribeBookmarks(handleChange);
+  }, []);
 
   const filteredBookmarks = useMemo(() => {
     let filtered = bookmarks.filter(b => !b.deletedAt);
@@ -168,25 +200,30 @@ export const useMobileBookmarks = (filters?: { tagIds?: string[]; status?: Bookm
     [bookmarks]
   );
 
-  const createBookmark = (data: Omit<Bookmark, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
-    const newBookmark: Bookmark = {
-      ...data,
-      id: Date.now().toString(),
-      userId: 'demo-user',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    setBookmarks(prev => [newBookmark, ...prev]);
-    return newBookmark;
-  };
+  const createBookmark = useCallback(
+    (data: Omit<Bookmark, 'id' | 'userId' | 'createdAt' | 'updatedAt'>) => {
+      const newBookmark: Bookmark = {
+        ...data,
+        id: Date.now().toString(),
+        userId: 'demo-user',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      setBookmarksState(prev => [newBookmark, ...prev]);
+      return newBookmark;
+    },
+    [],
+  );
 
-  const updateBookmark = (id: string, updates: Partial<Bookmark>) => {
-    setBookmarks(prev => prev.map(b => (b.id === id ? { ...b, ...updates, updatedAt: new Date() } : b)));
-  };
+  const updateBookmark = useCallback((id: string, updates: Partial<Bookmark>) => {
+    setBookmarksState(prev =>
+      prev.map(b => (b.id === id ? { ...b, ...updates, updatedAt: new Date() } : b)),
+    );
+  }, []);
 
-  const deleteBookmark = (id: string) => {
-    setBookmarks(prev => prev.map(b => (b.id === id ? { ...b, deletedAt: new Date() } : b)));
-  };
+  const deleteBookmark = useCallback((id: string) => {
+    setBookmarksState(prev => prev.map(b => (b.id === id ? { ...b, deletedAt: new Date() } : b)));
+  }, []);
 
   return {
     bookmarks: filteredBookmarks,
@@ -213,11 +250,28 @@ export const useMobileTags = () => {
     return newTag;
   };
 
+  const updateTag = (
+    id: string,
+    updates: Partial<Omit<Tag, 'id' | 'userId' | 'createdAt' | 'updatedAt'>>,
+  ) => {
+    setTags(prev =>
+      prev.map(tag =>
+        tag.id === id
+          ? {
+              ...tag,
+              ...updates,
+              updatedAt: new Date(),
+            }
+          : tag,
+      ),
+    );
+  };
+
   const deleteTag = (id: string) => {
     setTags(prev => prev.filter(tag => tag.id !== id));
   };
 
-  return { tags, createTag, deleteTag };
+  return { tags, createTag, updateTag, deleteTag };
 };
 
 export const useInboxCount = () => {

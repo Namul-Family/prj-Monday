@@ -17,8 +17,9 @@ export const Home: React.FC = () => {
 
   const { bookmarks, updateBookmark, createBookmark } = useMobileBookmarks({
     tagIds: selectedTagIds.includes('all') ? [] : selectedTagIds,
+    status: 'active',
   });
-  const { tags, createTag, deleteTag } = useMobileTags();
+  const { tags, createTag, updateTag, deleteTag } = useMobileTags();
   const inboxCount = useInboxCount();
 
   const handleTagSelect = (tagId: string, meta?: { isAllOnlySelected?: boolean }) => {
@@ -62,12 +63,15 @@ export const Home: React.FC = () => {
     });
   };
 
-  const handleCreateTag = (name: string) => {
+  const handleCreateTag = (data: { name: string; description?: string; color: string }) => {
     createTag({
-      name,
+      ...data,
       userId: 'demo-user',
-      color: `#${Math.floor(Math.random() * 16777215).toString(16)}`,
     });
+  };
+
+  const handleUpdateTag = (id: string, data: { name: string; description?: string; color: string }) => {
+    updateTag(id, data);
   };
 
   return (
@@ -138,6 +142,7 @@ export const Home: React.FC = () => {
         onClose={() => setIsTagManagerOpen(false)}
         tags={tags}
         onCreateTag={handleCreateTag}
+        onUpdateTag={handleUpdateTag}
         onDeleteTag={deleteTag}
       />
     </div>
