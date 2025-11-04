@@ -8,7 +8,7 @@
 root/
 ├─ apps/
 │   ├─ web/        (React + Vite + TypeScript + Tailwind + React Query)
-│   └─ api/        (Node.js + Express + TypeScript + Prisma + SQLite)
+│   └─ api/        (Node.js + Express + TypeScript + Prisma + PostgreSQL)
 ├─ packages/
 │   ├─ types/      (공유 타입 정의)
 │   ├─ utils/      (공통 유틸리티 함수)
@@ -30,19 +30,28 @@ pnpm install
 
 ### 2. 데이터베이스 설정
 
-```bash
-# API 디렉토리로 이동
-cd apps/api
+1. **PostgreSQL 실행** – 로컬에 PostgreSQL이 없다면 Docker 컨테이너로 손쉽게 실행할 수 있습니다.
+   ```bash
+   docker run --name monday-postgres \
+     -e POSTGRES_USER=monday \
+     -e POSTGRES_PASSWORD=monday \
+     -e POSTGRES_DB=monday_bookmarks \
+     -p 5432:5432 -d postgres:15
+   ```
+   이미 PostgreSQL을 사용 중이라면 동일한 사용자/데이터베이스를 직접 생성해 주세요.
 
-# 환경 변수 설정 (env.example을 참고하여 .env 파일 생성)
-cp env.example .env
+2. **환경 변수 설정**
+   ```bash
+   cd apps/api
+   cp env.example .env
+   ```
+   필요하다면 `.env` 파일의 `DATABASE_URL`을 실제 접속 정보에 맞게 수정합니다.
 
-# Prisma 마이그레이션 실행
-pnpm prisma migrate dev --name init
-
-# Prisma 클라이언트 생성
-pnpm prisma generate
-```
+3. **Prisma 마이그레이션 및 클라이언트 생성**
+   ```bash
+   pnpm prisma migrate deploy
+   pnpm prisma generate
+   ```
 
 ### 3. 개발 서버 실행
 
@@ -59,7 +68,7 @@ pnpm dev
 
 ### 백엔드 (apps/api)
 - **Express + TypeScript**: RESTful API 서버
-- **Prisma + SQLite**: 데이터베이스 ORM 및 로컬 데이터베이스
+- **Prisma + PostgreSQL**: 데이터베이스 ORM 및 실데이터베이스 연결
 - **Zod**: 데이터 검증
 - **CORS, Helmet, Morgan**: 보안 및 로깅 미들웨어
 
@@ -137,14 +146,14 @@ pnpm clean
 2. **데이터 검증**: Zod를 사용하여 클라이언트와 서버 양쪽에서 데이터를 검증합니다.
 3. **메모 필드**: 최대 5000자까지 지원합니다 (`@db.Text` 필드).
 4. **상태 플로우**: inbox → active → archived 기본 플로우를 따릅니다.
-5. **데이터 지속성**: Prisma ORM을 통해 SQLite 데이터베이스를 사용합니다.
-6. **마이그레이션**: Supabase/PostgreSQL로 쉽게 마이그레이션 가능합니다.
+5. **데이터 지속성**: Prisma ORM을 통해 PostgreSQL 데이터베이스를 사용합니다.
+6. **마이그레이션**: 다른 PostgreSQL 호환 환경(Supabase 등)으로 손쉽게 이전할 수 있습니다.
 
 ## 🔧 환경 변수
 
 ### API (.env)
 ```
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://monday:monday@localhost:5432/monday_bookmarks?schema=public"
 PORT=3000
 NODE_ENV=development
 ```

@@ -6,11 +6,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-// SQLite doesn't support enums, so we'll use String types instead
+// Using string columns instead of Prisma enums for flexibility across providers
 
 model User {
   id          String     @id @default(uuid())
